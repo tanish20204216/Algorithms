@@ -1,0 +1,84 @@
+// In Sparse table we cannot do update operation
+// TC-->o(nlog(n)+qlog(n)) 
+// SC-->o(nlog(n))
+// some of idempotent operation= gcd, min, max, and, or
+// idempotenet opereator= c+c==c
+
+//for sum
+
+  vector<vector<long long >>dp;
+  k=log2(n);
+ dp.resize(n,vector<long long >(k+1));
+
+long long  get(int l,int r)
+{
+    long long sum=0;
+    for(int j=k;j>=0;j--)
+    {
+        int ind=l+(1<<j)-1;
+        if(ind<=r)
+        {
+          sum+=dp[l][j];
+          l=ind+1;
+        }
+    }
+    return sum;
+}
+
+void build(vector<int>&arr)
+{
+    int n=arr.size();
+    int k=log2(n);
+    for(int i=n-1;i>=0;i--)
+    {
+        for(int j=0;j<=k;j++)
+        {
+            int r=i+(1<<j)-1;
+            if(r>=n) break;
+            if(j==0) dp[i][j]=arr[i];
+            else
+            {
+                int ind=i+(1<<(j-1));
+                dp[i][j]=dp[i][j-1]+dp[ind][j-1];
+            }
+        }
+    }
+}
+
+
+//for min
+
+ vector<vector<long long >>dp;
+  k=log2(n);
+ dp.resize(n,vector<long long >(k+1));
+
+long long get(int l,int r)
+{
+    long long mini;
+    int w=r-l+1;
+    int val=log2(w);
+    int ind=r+1-val;
+    mini=min(dp[l][val],dp[ind][val]);
+    return mini;
+}
+
+void build(vector<int>&arr)
+{
+    int n=arr.size();
+    l=n;
+    int k=log2(n);
+    for(int i=n-1;i>=0;i--)
+    {
+        for(int j=0;j<=k;j++)
+        {
+            int r=i+(1<<j)-1;
+            if(r>=n) break;
+            if(j==0) dp[i][j]=arr[i];
+            else
+            {
+                int ind=i+(1<<(j-1));
+                dp[i][j]=min(dp[i][j-1],dp[ind][j-1]);
+            }
+        }
+    }
+}
