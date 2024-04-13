@@ -1,0 +1,24 @@
+Note:-
+1. This is set not a multiset.
+2. All set functionality is given here like st.size(),upperbound,lowerbound.
+3. It is basically a indexed set.
+4. All operation take log(n) time.
+
+
+
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+
+
+pbds st;
+int val=*st.find_by_order(4); 
+// value present at index 4 of set(0 based indexing)
+
+int ind=st.order_of_key(10);
+//  index at which 10 is present
+
+if we want to store values in descending order then we just have to change less to greater
+ie:-
+typedef tree<int, null_type, greater<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
