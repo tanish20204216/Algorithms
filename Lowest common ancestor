@@ -1,0 +1,47 @@
+vector<int>adj[200001];
+int dp[200001][20];
+vector<int>dp2(200001);
+void binary_lifting(int node,int par,int d)
+{
+   dp[node][0]=par;
+   dp2[node]=d;
+   for(int i=1;i<20;i++)
+   {
+       if(dp[node][i-1]!=-1) dp[node][i]=dp[dp[node][i-1]][i-1];
+       else dp[node][i]=-1;
+   }
+   for(auto &child:adj[node])
+   {
+       if(child==par) continue;
+       binary_lifting(child,node,d+1);
+   }
+}
+
+int ans_query(int node,int k)
+{
+    if(k==0||node==-1) return node;
+    for(int i=19;i>=0;i--)
+    {
+        if(k&(1<<i)) return ans_query(dp[node][i],k-(1<<i));
+    }
+    return -1;
+}
+
+int lca(int u,int v)
+{
+    if(dp2[u]>dp2[v]) swap(u,v);
+    v=ans_query(v,dp2[v]-dp2[u]);
+    if(u==v)
+    {
+        return u;
+    }
+    for(int i=19;i>=0;i--)
+    {
+        if(dp[u][i]!=dp[v][i])
+        {
+            u=dp[u][i];
+            v=dp[v][i];
+        }
+    }
+    return ans_query(u,1);
+}
