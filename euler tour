@@ -1,0 +1,22 @@
+    vector<int>arr;
+    vector<int>intime;
+    vector<int>outtime;
+    arr.resize(2*n);
+    intime.resize(n);
+    outtime.resize(n);
+    void euler_tour(int node,int par,int &time,int sum,vector<pair<int,int>>adj[])
+    {
+        intime[node]=time;
+        arr[time]=sum;
+        for(auto &p:adj[node])
+        {
+            int v=p.first;
+            int wt=p.second;
+            if(v==par) continue;
+            time++;
+            euler_tour(v,node,time,sum+wt,adj);
+        }
+        time++;
+        outtime[node]=time;
+        arr[time]=sum;
+    }
