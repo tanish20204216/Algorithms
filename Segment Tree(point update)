@@ -2,7 +2,7 @@ class segmentTree{
         private:
         vector<int>seg;
         public:
-        segementTree(int n)
+        segmentTree(int n)
         {
             seg.resize(4*n,0);
         } 
