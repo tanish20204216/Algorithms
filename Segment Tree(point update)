@@ -1,0 +1,43 @@
+class segmentTree{
+        private:
+        vector<int>seg;
+        public:
+        segementTree(int n)
+        {
+            seg.resize(4*n,0);
+        } 
+
+        void build(int ind,int low,int high,vector<int>&nums)
+        {
+            if(low==high)
+            {
+                seg[ind]=nums[low];
+                return;
+            }
+            int mid=low+(high-low)/2;
+            build(2*ind+1,low,mid,nums);
+            build(2*ind+2,mid+1,high,nums);
+            seg[ind]=seg[2*ind+1]+seg[2*ind+2];
+        }
+
+        void update(int ind,int low,int high,int idx,int val)
+        {
+            if(low==high)
+            {
+                seg[ind]+=val;
+                return;
+            }
+            int mid=low+(high-low)/2;
+            if(idx<=mid) update(2*ind+1,low,mid,idx,val);
+            else update(2*ind+2,mid+1,high,idx,val);
+            seg[ind]=seg[2*ind+1]+seg[2*ind+2];
+        }
+        int get(int ind,int low,int high,int l,int r)
+        {
+            if(low>=l&&high<=r) return seg[ind];
+            if(low>r||high<l) return 0;
+            int mid=low+(high-low)/2;
+            return get(2*ind+1,low,mid,l,r)+get(2*ind+2,mid+1,high,l,r);
+        }
+
+    };
