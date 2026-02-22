@@ -1,0 +1,10 @@
+// instead of using map<pair<int,int>,int>mp we can use unordered_map with the integer with much more fast searching
+
+
+unordered_map<long long,int> mp;
+
+    static long long key(int x, int y) {
+        return ( (long long)x << 11 ) | y;
+    }
+    static int getX(long long k) { return (int)(k >> 11); }
+    static int getY(long long k) { return (int)(k & 2047); }
